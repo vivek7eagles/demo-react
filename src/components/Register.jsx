@@ -1,49 +1,38 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [setpassword, setSetpassword] = useState("");
-  const [formData, setFormData] = useState({});
+  const [confirmPassword, setConfirmPassword] = useState("");
 
-  useEffect(() => {
-    setFormData({
-      email: email,
-      password: password,
-      setpassword: setpassword,
-    });
-  }, [email, password, setpassword]);
+  // const getAllUser = async () => {
+  //   try {
+  //     const response = await axios.get("http://localhost:3001/api/vercel");
+  //     console.log(response.data);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
-  const getAllUser = async () => {
+  const postData = async () => {
     try {
-      const response = await axios.get("http://localhost:3001/api/vercel");
+      const response = await axios.post("http://localhost:3001/api/register", [
+        {
+          email,
+          password,
+          confirmPassword,
+        },
+      ]);
       console.log(response.data);
     } catch (error) {
       console.error(error);
     }
   };
-
-  const postData = async (e) => {
-    e.preventDefault(); // Prevent default form submission
-    console.log(formData);
-    try {
-      const response = await axios.post(
-        "http://localhost:3001/api/register",
-        formData
-      );
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  useEffect(() => {
-    getAllUser();
-  }, []);
 
   return (
-    <form onSubmit={postData} className="space-y-5 text-center m-5">
+    <div className="space-y-5 text-center m-5">
       <input
         type="email"
         name="email"
@@ -67,12 +56,20 @@ function Register() {
         className="border"
         name="setpassword"
         placeholder="confirm password"
-        value={setpassword}
-        onChange={(e) => setSetpassword(e.target.value)}
+        value={confirmPassword}
+        onChange={(e) => setConfirmPassword(e.target.value)}
       />
       <br />
-      <input type="submit" value="Submit" className="bg-green-500" />
-    </form>
+      <Link
+        to={"/welcome"}
+        type="submit"
+        onClick={postData}
+        value="Submit"
+        className="bg-green-500"
+      >
+        submit
+      </Link>
+    </div>
   );
 }
 

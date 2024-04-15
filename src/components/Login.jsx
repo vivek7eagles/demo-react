@@ -1,9 +1,23 @@
 import { useState } from "react";
+import axios from "axios";
+import { Link } from "react-router-dom";
+
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const val = (email, password) => console.log(email, password);
-  val(email, password);
+  const loginData = async () => {
+    try {
+      const response = await axios.post("http://localhost:3001/api/register", [
+        {
+          email,
+          password,
+        },
+      ]);
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <div>
       <div className=" space-y-5 m-5 text-center">
@@ -25,12 +39,13 @@ function Login() {
         <br />
         <input
           type="submit"
+          onClick={loginData}
           className=" bg-green-500 text-white px-3 rounded-lg"
         />
       </div>
-      <a href="/register" className="text-center">
+      <Link to="/register" className="text-center">
         if you dont have an account sign up
-      </a>
+      </Link>
     </div>
   );
 }
