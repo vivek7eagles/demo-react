@@ -6,7 +6,6 @@ import NotFound from "./components/NotFound";
 function App() {
   return (
     <>
-      <div className="bg-green-700">vivek</div>
       {/* <Register /> */}
       <Routes>
         <Route path="/" element={<Login />} />
